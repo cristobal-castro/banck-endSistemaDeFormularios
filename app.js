@@ -25,6 +25,30 @@ const mc = mysql.createConnection({
 
 mc.connect();
 
+//Agregar Formulario
+app.post('/formulario',function(req,res){
+    let datosFormulario = {
+        descripcion: req.body.descripcion,
+        url: req.body.url,
+        tipo: req.body.tipo,
+        titulo: req.body.titulo,
+        fechavencimiento: req.body.fechavencimiento,
+    };
+    if(mc){
+        mc.query('INSERT INTO formulario SET ?', datosFormulario, function(error, result){
+            if(error){
+                res.status(500).json({"Mensaje":"ERROR"});
+            }else{
+                res.status(201).json({"Mensaje":"INSERTADO"})
+            }
+        });
+    }
+});
+
+
+
+
+
 //Obtener publicos
 app.get('/publicos', function (req, res){
     mc.query('select* from dirigido', function (err, results, fields) {
