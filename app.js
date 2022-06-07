@@ -33,6 +33,7 @@ app.post('/formulario',function(req,res){
         tipo: req.body.tipo,
         titulo: req.body.titulo,
         fechavencimiento: req.body.fechavencimiento,
+        estado:req.body.estado
     };
     if(mc){
         mc.query('INSERT INTO formulario SET ?', datosFormulario, function(error, result){
@@ -63,7 +64,7 @@ app.get('/publicos', function (req, res){
 
 //Obtener formularios
 app.get('/formularios', function (req, res){
-    mc.query('select* from formulario', function (err, results, fields) {
+    mc.query('select* from formulario where estado="DISPONIBLE"', function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
