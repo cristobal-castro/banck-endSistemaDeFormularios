@@ -77,12 +77,36 @@ app.get('/publicos', function (req, res){
 
 //Obtener formularios
 app.get('/formularios', function (req, res){
-    mc.query('select* from formulario where estado="DISPONIBLE" limit 1,4', function (err, results, fields) {
+    mc.query('select* from formulario where estado="DISPONIBLE"', function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
             data: results,
             massage: 'Lista de formularios.'
+        });
+    });
+});
+
+//Obtener encuestas
+app.get('/encuestas', function (req, res){
+    mc.query('select * from formulario where tipo="Encuesta"', function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de encuestas.'
+        });
+    });
+});
+
+//Obtener actividades
+app.get('/actividades', function (req, res){
+    mc.query('select* from formulario where tipo="Actividad"', function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de actividades.'
         });
     });
 });
