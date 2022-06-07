@@ -46,7 +46,20 @@ app.post('/formulario',function(req,res){
     }
 });
 
-
+//Actualizar Estado Formulario
+app.put('/formulario',function(req,res){
+    let id=req.body.id;
+    let estado=req.body.estado;
+    console.log(id);
+    console.log(estado);
+    if(!id || !estado){
+        return res.status(400).send({error:id, message:'El error esta en el id del formulario'});
+    }
+    mc.query("UPDATE formulario SET estado=? WHERE id = ?",[estado,id],function(error,results,fields){
+        if(error) throw error;
+        return res.status(200).json({"Mensaje":"Formulario con id= "+id + "Se cambio al estado "+ estado});
+    })
+});
 
 
 
@@ -64,7 +77,20 @@ app.get('/publicos', function (req, res){
 
 //Obtener formularios
 app.get('/formularios', function (req, res){
-    mc.query('select* from formulario where estado="DISPONIBLE"', function (err, results, fields) {
+    mc.query('select* from formulario where estado="DISPONIBLE" limit 1,4', function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de formularios.'
+        });
+    });
+});
+
+//Obtener formulario
+app.get('/formulario/:id', function (req, res){
+    let id=req.params.id;
+    mc.query('select* from formulario where estado="DISPONIBLE" AND id=?',id, function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
