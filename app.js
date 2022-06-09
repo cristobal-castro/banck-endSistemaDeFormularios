@@ -111,6 +111,18 @@ app.get('/actividades', function (req, res){
     });
 });
 
+//Obtener misFormularios
+app.get('/misFormularios', function (req, res){
+    mc.query('select * from formulario, gestiona WHERE formulario.Id = gestiona.IdFormulario AND gestiona.RutUsuario = "20.111.540-k"', function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de misFormularios.'
+        });
+    });
+});
+
 //Obtener formulario
 app.get('/formulario/:id', function (req, res){
     let id=req.params.id;
