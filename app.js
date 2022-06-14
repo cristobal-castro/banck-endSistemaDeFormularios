@@ -61,7 +61,20 @@ app.put('/formulario',function(req,res){
     })
 });
 
-
+//Actualizar Formulario
+app.put('/actualizarFormulario/:id',function(req,res){
+    let id=req.params.id;
+    let formulario=req.body;
+    console.log(id);
+    console.log(formulario);
+    if(!id || !formulario){
+        return res.status(400).send({error:id, message:'El error esta en el id del formulario'});
+    }
+    mc.query("UPDATE formulario SET ? WHERE Id = ?",[formulario,id],function(error,results,fields){
+        if(error) throw error;
+        return res.status(200).json({"Mensaje":"Formulario con id= "+id + "se modifico"});
+    })
+});
 
 //Obtener publicos
 app.get('/publicos', function (req, res){
