@@ -62,7 +62,7 @@ app.put('/formulario',function(req,res){
 });
 
 //Actualizar Formulario
-app.put('/actualizarFormulario/:id',function(req,res){
+app.put('/actualizarFormulario/:id',(req,res)=>{
     let id=req.params.id;
     let formulario=req.body;
     console.log(id);
