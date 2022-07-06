@@ -70,7 +70,7 @@ app.put('/actualizarFormulario/:id',function(req,res){
     if(!id || !formulario){
         return res.status(400).send({error:id, message:'El error esta en el id del formulario'});
     }
-    mc.query("UPDATE formulario SET ? WHERE Id = ?",[formulario,id],function(error,results,fields){
+    mc.query('UPDATE formulario SET ? WHERE Id = ?',[formulario,id],function(error,results,fields){
         if(error) throw error;
         return res.status(200).json({"Mensaje":"Formulario con id= "+id + "se modifico"});
     })
