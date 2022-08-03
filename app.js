@@ -1,6 +1,8 @@
 var express = require('express');
 const mysql = require('mysql')
 const bodyParser = require('body-parser');
+var bcrypt=require('bcrypt');
+var jwt = require('jsonwebtoken');
 
 var app = express();
 
@@ -24,6 +26,66 @@ const mc = mysql.createConnection({
 });
 
 mc.connect();
+
+//Agregar un usuario
+app.post('/usuario',function(req,res){
+    let datosUsuario={
+        nombre:req.body.nombre,
+        correo:req.body.correo,
+        password:bcrypt.hashSync(req.body.password,10),
+    };
+    if(mc){
+        mc.query("INSERT INTO login SET ?",datosUsuario,function(error,result){
+            if(error){
+                return res.status(400).json({
+                    ok:false,mensaje:'Error a crear usuario',error:error
+                })
+            }else{
+                res.status(201).json({
+                    ok:true,usuario:result
+                })
+            }
+        });
+    }
+});
+
+app.post('/login',function(req,res){
+    var body=req.body;
+    console.log(body);
+    mc.query("SELECT * FROM login WHERE correo = ?",body.correo,function(error,results,fields){
+        if(error){
+            return res.status(500).json({
+                ok:false,
+                mensaje:'Error al busca usuario',
+                errors:error
+            });
+        }
+        if(!results.length){
+            return res.status(400).json({
+                ok:false,
+                mensaje:'Credenciales incorrectas',
+                errors:error
+            });
+        }
+        console.log(results);
+        if(!bcrypt.compareSync(body.password,results[0].password)){
+            return res.status(400).json({
+                ok:false,mensaje:'Credenciales Incorrectas',errors:error
+            });
+        }
+        //Crear TOKEN
+        let seed='Formularios'
+        let token=jwt.sign({usuario:results[0].clave},seed,{expiresIn:14400});
+        res.status(200).json({
+            ok:true,
+            usuario:results,
+            id:results[0].rut,
+            token:token
+        });
+    });
+});
+
+
 
 //Agregar Formulario
 app.post('/formulario',function(req,res){
