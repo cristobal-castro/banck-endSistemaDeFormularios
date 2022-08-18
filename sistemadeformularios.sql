@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-07-2022 a las 22:07:28
+-- Tiempo de generación: 18-08-2022 a las 22:31:16
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.12
 
@@ -24,73 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `dirigido`
---
-
-CREATE TABLE `dirigido` (
-  `IdFormulario` int(11) NOT NULL,
-  `Publico` varchar(256) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `formulario`
 --
 
 CREATE TABLE `formulario` (
-  `Id` int(11) NOT NULL,
-  `Descripcion` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
-  `Url` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
-  `Tipo` varchar(180) COLLATE utf8_spanish_ci NOT NULL,
-  `Titulo` varchar(180) COLLATE utf8_spanish_ci NOT NULL,
-  `FechaVencimiento` date NOT NULL,
-  `estado` varchar(64) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `id` int(11) NOT NULL,
+  `titulo` varchar(254) NOT NULL,
+  `descripcion` varchar(254) NOT NULL,
+  `url` varchar(254) NOT NULL,
+  `tipo_formulario` varchar(254) NOT NULL,
+  `subtipo_formulario` varchar(254) NOT NULL,
+  `estado` varchar(254) NOT NULL,
+  `sexo_dirigido` varchar(254) NOT NULL,
+  `carrera_dirigida` varchar(254) NOT NULL,
+  `fecha_vencimiento` date NOT NULL,
+  `id_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `formulario`
 --
 
-INSERT INTO `formulario` (`Id`, `Descripcion`, `Url`, `Tipo`, `Titulo`, `FechaVencimiento`, `estado`) VALUES
-(26, 'Responde acá para cambiar certamen de SO dependiendo de tu preferencia', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta Cambiar Certamen', '2022-05-02', 'DISPONIBLE'),
-(27, 'Participa de el nuevo seminario de ICI, y gana premios', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Seminario ICI', '2022-05-03', 'DISPONIBLE'),
-(28, 'Asiste al cuarto conversatorio de ICI, responde para inscribirte', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Conversatorio ICI', '2022-05-05', 'DISPONIBLE'),
-(29, 'Concurso de fotografía! participa enviándonos una foto de tu mascota y participa!', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Concurso Fotografía', '2022-05-10', 'DISPONIBLE'),
-(30, 'Encuesta para cambiar horario de las clases del martes de angular', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta de Asignatura Angular', '2022-05-10', 'FINALIZADO'),
-(31, 'Concurso de fotografía! participa enviándonos una foto de tu ultimo viaje de vacaciones y participa!', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Concurso Fotografia', '2022-05-10', 'FINALIZADO'),
-(34, 'asdasd', 'asdasd', 'asdasd', 'asdasd', '2022-07-22', 'DISPONIBLE');
+INSERT INTO `formulario` (`id`, `titulo`, `descripcion`, `url`, `tipo_formulario`, `subtipo_formulario`, `estado`, `sexo_dirigido`, `carrera_dirigida`, `fecha_vencimiento`, `id_usuario`) VALUES
+(1, 'Conversatorio', 'Asiste al cuarto conversatorio de ICI, responde para inscribirte', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'DISPONIBLE', 'masculino', 'Todas', '2022-10-26', 1),
+(2, 'Seminario ICI', 'Participa de el nuevo seminario de ICI, y gana premios', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'DISPONIBLE', 'Todos', 'Ingenieria Civil Informatica', '2022-09-30', 1),
+(3, 'Encuesta de Asignatura Anatomia', 'Encuesta para cambiar horario de las clases del martes de Anatomia', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'DISPONIBLE', 'Todos', 'Enfermeria', '2022-10-26', 1),
+(4, 'Concurso Fotografía', 'Concurso de fotografía! participa enviándonos una foto de tu mascota y participa!', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Actividad', 'DISPONIBLE', 'Todos', 'Todas', '2022-10-13', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `gestiona`
+-- Estructura de tabla para la tabla `respuesta`
 --
 
-CREATE TABLE `gestiona` (
-  `RutUsuario` varchar(13) COLLATE utf8_spanish_ci NOT NULL,
-  `IdFormulario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `login`
---
-
-CREATE TABLE `login` (
-  `Id` int(11) NOT NULL,
-  `Rol` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `UserName` varchar(180) COLLATE utf8_spanish_ci NOT NULL,
-  `Contraseña` varchar(256) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `login`
---
-
-INSERT INTO `login` (`Id`, `Rol`, `UserName`, `Contraseña`) VALUES
-(1, 'Estudiante', 'C_Castro', 'abkdsljfnkasdnflkjasdf');
+CREATE TABLE `respuesta` (
+  `id_usuario` int(11) NOT NULL,
+  `id_formulario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -99,54 +69,46 @@ INSERT INTO `login` (`Id`, `Rol`, `UserName`, `Contraseña`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `Rut` varchar(13) COLLATE utf8_spanish_ci NOT NULL,
-  `IdLogin` int(11) NOT NULL,
-  `Nombre` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
-  `Cargo` varchar(180) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `id` int(100) NOT NULL,
+  `rut` varchar(12) NOT NULL,
+  `nombre` varchar(254) NOT NULL,
+  `correo` varchar(254) NOT NULL,
+  `password` varchar(254) NOT NULL,
+  `rol` varchar(254) NOT NULL,
+  `sexo` varchar(254) NOT NULL,
+  `carrera` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Rut`, `IdLogin`, `Nombre`, `Cargo`) VALUES
-('201237123-5', 1, 'Cristobal Castro', 'Estudiante');
+INSERT INTO `usuario` (`id`, `rut`, `nombre`, `correo`, `password`, `rol`, `sexo`, `carrera`) VALUES
+(1, '20363288-6', 'Cristobal Castro', 'cristobal@gmail.com', '$2b$10$A148qnL/NESMMDl5SwnQg.Wut/40wcH19XnKImJP2px0WHJfmKcA2', '2', 'masculino', 'Ingenieria Civil Informatica');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `dirigido`
---
-ALTER TABLE `dirigido`
-  ADD KEY `IdFormulario` (`IdFormulario`);
-
---
 -- Indices de la tabla `formulario`
 --
 ALTER TABLE `formulario`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_formulario_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `gestiona`
+-- Indices de la tabla `respuesta`
 --
-ALTER TABLE `gestiona`
-  ADD KEY `IdFormulario` (`IdFormulario`),
-  ADD KEY `RutUsuario` (`RutUsuario`);
-
---
--- Indices de la tabla `login`
---
-ALTER TABLE `login`
-  ADD PRIMARY KEY (`Id`);
+ALTER TABLE `respuesta`
+  ADD PRIMARY KEY (`id_usuario`,`id_formulario`),
+  ADD KEY `id_formulario` (`id_formulario`);
 
 --
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`Rut`),
-  ADD KEY `IdLogin` (`IdLogin`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -156,36 +118,30 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `formulario`
 --
 ALTER TABLE `formulario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `login`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
-ALTER TABLE `login`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `usuario`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `dirigido`
+-- Filtros para la tabla `formulario`
 --
-ALTER TABLE `dirigido`
-  ADD CONSTRAINT `dirigido_ibfk_1` FOREIGN KEY (`IdFormulario`) REFERENCES `formulario` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `formulario`
+  ADD CONSTRAINT `fk_formulario_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `gestiona`
+-- Filtros para la tabla `respuesta`
 --
-ALTER TABLE `gestiona`
-  ADD CONSTRAINT `gestiona_ibfk_1` FOREIGN KEY (`RutUsuario`) REFERENCES `usuario` (`Rut`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `gestiona_ibfk_2` FOREIGN KEY (`IdFormulario`) REFERENCES `formulario` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IdLogin`) REFERENCES `login` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `respuesta`
+  ADD CONSTRAINT `respuesta_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `respuesta_ibfk_2` FOREIGN KEY (`id_formulario`) REFERENCES `formulario` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

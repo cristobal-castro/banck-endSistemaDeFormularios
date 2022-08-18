@@ -30,12 +30,16 @@ mc.connect();
 //Agregar un usuario
 app.post('/usuario',function(req,res){
     let datosUsuario={
+        rut:req.body.rut,
         nombre:req.body.nombre,
         correo:req.body.correo,
         password:bcrypt.hashSync(req.body.password,10),
+        rol:req.body.rol,
+        sexo:req.body.sexo,
+        carrera:req.body.carrera
     };
     if(mc){
-        mc.query("INSERT INTO login SET ?",datosUsuario,function(error,result){
+        mc.query("INSERT INTO usuario SET ?",datosUsuario,function(error,result){
             if(error){
                 return res.status(400).json({
                     ok:false,mensaje:'Error a crear usuario',error:error
@@ -52,7 +56,7 @@ app.post('/usuario',function(req,res){
 app.post('/login',function(req,res){
     var body=req.body;
     console.log(body);
-    mc.query("SELECT * FROM login WHERE correo = ?",body.correo,function(error,results,fields){
+    mc.query("SELECT * FROM usuario WHERE correo = ?",body.correo,function(error,results,fields){
         if(error){
             return res.status(500).json({
                 ok:false,
@@ -68,7 +72,7 @@ app.post('/login',function(req,res){
             });
         }
         console.log(results);
-        if(!bcrypt.compareSync(body.password,results[0].password)){
+        if(!bcrypt.compareSync(body.clave,results[0].password)){
             return res.status(400).json({
                 ok:false,mensaje:'Credenciales Incorrectas',errors:error
             });
@@ -90,12 +94,16 @@ app.post('/login',function(req,res){
 //Agregar Formulario
 app.post('/formulario',function(req,res){
     let datosFormulario = {
+        titulo: req.body.titulo,
         descripcion: req.body.descripcion,
         url: req.body.url,
-        tipo: req.body.tipo,
-        titulo: req.body.titulo,
-        fechavencimiento: req.body.fechavencimiento,
-        estado:req.body.estado
+        tipo_formulario: req.body.tipo,
+        subtipo_formulario:req.body.subtipo,
+        estado:req.body.estado,
+        sexo_dirigido:req.body.sexo_dirigido,
+        carrera_dirigida:req.body.carrera_dirigida,
+        fecha_vencimiento:req.body.fecha_vencimiento,
+        id_usuario:req.body.usuario
     };
     if(mc){
         mc.query('INSERT INTO formulario SET ?', datosFormulario, function(error, result){
@@ -112,8 +120,6 @@ app.post('/formulario',function(req,res){
 app.put('/formulario',function(req,res){
     let id=req.body.id;
     let estado=req.body.estado;
-    console.log(id);
-    console.log(estado);
     if(!id || !estado){
         return res.status(400).send({error:id, message:'El error esta en el id del formulario'});
     }
@@ -138,21 +144,11 @@ app.put('/actualizarFormulario/:id',function(req,res){
     })
 });
 
-//Obtener publicos
-app.get('/publicos', function (req, res){
-    mc.query('select* from dirigido', function (err, results, fields) {
-        if (err) throw error;
-        return res.send({
-            error:false,
-            data: results,
-            massage: 'Lista de publicos.'
-        });
-    });
-});
-
 //Obtener formularios
-app.get('/formularios', function (req, res){
-    mc.query('select* from formulario where estado="DISPONIBLE"', function (err, results, fields) {
+app.post('/formularios', function (req, res){
+    let carrera=req.body.carrera;
+    let sexo=req.body.sexo;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" ',[carrera,sexo] ,function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -163,8 +159,10 @@ app.get('/formularios', function (req, res){
 });
 
 //Obtener encuestas
-app.get('/encuestas', function (req, res){
-    mc.query('select * from formulario where tipo="Encuesta"', function (err, results, fields) {
+app.post('/encuestas', function (req, res){
+    let carrera=req.body.carrera;
+    let sexo=req.body.sexo;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Encuesta" ',[carrera,sexo], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -175,8 +173,10 @@ app.get('/encuestas', function (req, res){
 });
 
 //Obtener actividades
-app.get('/actividades', function (req, res){
-    mc.query('select* from formulario where tipo="Actividad"', function (err, results, fields) {
+app.post('/actividades', function (req, res){
+    let carrera=req.body.carrera;
+    let sexo=req.body.sexo;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Actividad" ',[carrera,sexo], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -187,8 +187,9 @@ app.get('/actividades', function (req, res){
 });
 
 //Obtener misFormularios
-app.get('/misFormularios', function (req, res){
-    mc.query('select * from formulario, gestiona WHERE formulario.Id = gestiona.IdFormulario AND gestiona.RutUsuario = "20.111.540-k"', function (err, results, fields) {
+app.get('/misFormularios/:id', function (req, res){
+    let id=req.params.id;
+    mc.query('select * from formulario where id_usuario=?',id,function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -236,8 +237,9 @@ app.get('/logins', function (req, res){
 });
 
 //Obtener usuarios
-app.get('/usuarios', function (req, res){
-    mc.query('select * from usuario', function (err, results, fields) {
+app.get('/usuario/:id', function (req, res){
+    let id=req.params.id
+    mc.query('select * from usuario where id=?',id, function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
