@@ -92,19 +92,20 @@ app.post('/login',function(req,res){
 
 
 //Agregar Formulario
-app.post('/formulario',function(req,res){
+app.post('/ingresarformulario',function(req,res){
     let datosFormulario = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
         url: req.body.url,
-        tipo_formulario: req.body.tipo,
-        subtipo_formulario:req.body.subtipo,
+        tipo_formulario: req.body.tipo_formulario,
+        subtipo_formulario:req.body.subtipo_formulario,
         estado:req.body.estado,
         sexo_dirigido:req.body.sexo_dirigido,
         carrera_dirigida:req.body.carrera_dirigida,
         fecha_vencimiento:req.body.fecha_vencimiento,
-        id_usuario:req.body.usuario
+        id_usuario:req.body.id_usuario
     };
+    console.log(datosFormulario);
     if(mc){
         mc.query('INSERT INTO formulario SET ?', datosFormulario, function(error, result){
             if(error){
@@ -115,6 +116,23 @@ app.post('/formulario',function(req,res){
         });
     }
 });
+
+app.post('/respuesta',function(req,res){
+    let datos = {
+        id_usuario: req.body.id_usuario,
+        id_formulario: req.body.id_formulario,
+    };
+    if(mc){
+        mc.query('INSERT INTO respuesta SET ?', datos, function(error, result){
+            if(error){
+                res.status(500).json({"Mensaje":"ERROR"});
+            }else{
+                res.status(201).json({"Mensaje":"INSERTADO"})
+            }
+        });
+    }
+});
+
 
 //Actualizar Estado Formulario
 app.put('/formulario',function(req,res){
