@@ -252,7 +252,6 @@ app.get('/usuario/:id', function (req, res){
 //Eliminar Login
 app.delete('/login/:id', function(req,res){
     let id=req.params.id;
-
     if(mc){
         mc.query("DELETE FROM login WHERE id = ?", id, function(error,result){
             if(error){
