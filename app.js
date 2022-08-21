@@ -166,7 +166,8 @@ app.put('/actualizarFormulario/:id',function(req,res){
 app.post('/formularios', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" ',[carrera,sexo] ,function (err, results, fields) {
+    let id_usuario=req.body.id_usuario;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario] ,function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -180,7 +181,8 @@ app.post('/formularios', function (req, res){
 app.post('/encuestas', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Encuesta" ',[carrera,sexo], function (err, results, fields) {
+    let id_usuario=req.body.id_usuario;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Encuesta" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -194,7 +196,8 @@ app.post('/encuestas', function (req, res){
 app.post('/actividades', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Actividad" ',[carrera,sexo], function (err, results, fields) {
+    let id_usuario=req.body.id_usuario;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Actividad" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?) ',[carrera,sexo,id_usuario], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -216,6 +219,20 @@ app.get('/misFormularios/:id', function (req, res){
         });
     });
 });
+//Obtener formularios
+app.post('/misFormulariosContestados', function (req, res){
+    let carrera=req.body.carrera;
+    let sexo=req.body.sexo;
+    let id_usuario=req.body.id_usuario;
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and id IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario] ,function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de formularios.'
+        });
+    });
+});
 
 //Obtener formulario
 app.get('/formulario/:id', function (req, res){
@@ -231,8 +248,8 @@ app.get('/formulario/:id', function (req, res){
 });
 
 //Obtener gestiones
-app.get('/gestiones', function (req, res){
-    mc.query('select* from gestiona', function (err, results, fields) {
+app.get('/encuestas', function (req, res){
+    mc.query('select* from formulario where tipo_formulario="Encuesta"', function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -242,17 +259,30 @@ app.get('/gestiones', function (req, res){
     });
 });
 
-//Obtener logins
-app.get('/logins', function (req, res){
-    mc.query('select* from login', function (err, results, fields) {
+//Obtener gestiones
+app.get('/actividades', function (req, res){
+    mc.query('select * from formulario where tipo_formulario="Actividad"', function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
             data: results,
-            massage: 'Lista de login.'
+            massage: 'Lista de gestiones.'
         });
     });
 });
+
+//Obtener gestiones
+app.get('/respuestas', function (req, res){
+    mc.query('select * from respuesta', function (err, results, fields) {
+        if (err) throw error;
+        return res.send({
+            error:false,
+            data: results,
+            massage: 'Lista de gestiones.'
+        });
+    });
+});
+
 
 //Obtener usuarios
 app.get('/usuario/:id', function (req, res){
@@ -266,6 +296,8 @@ app.get('/usuario/:id', function (req, res){
         });
     });
 });
+
+
 
 //Eliminar Login
 app.delete('/login/:id', function(req,res){
