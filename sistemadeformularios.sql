@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-08-2022 a las 06:12:08
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.12
+-- Tiempo de generación: 21-08-2022 a las 19:39:04
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,10 +46,13 @@ CREATE TABLE `formulario` (
 --
 
 INSERT INTO `formulario` (`id`, `titulo`, `descripcion`, `url`, `tipo_formulario`, `subtipo_formulario`, `estado`, `sexo_dirigido`, `carrera_dirigida`, `fecha_vencimiento`, `id_usuario`) VALUES
-(1, 'Conversatorio', 'Asiste al cuarto conversatorio de ICI, responde para inscribirte', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'FINALIZADO', 'masculino', 'Todas', '2022-10-26', 1),
-(2, 'Seminario ICI', 'Participa de el nuevo seminario de ICI, y gana premios', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'DISPONIBLE', 'Todos', 'Ingenieria Civil Informatica', '2022-09-30', 1),
-(3, 'Encuesta de Asignatura Anatomia', 'Encuesta para cambiar horario de las clases del martes de Anatomia', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta', 'DISPONIBLE', 'Todos', 'Enfermeria', '2022-10-26', 1),
-(4, 'Concurso Fotografía', 'Concurso de fotografía! participa enviándonos una foto de tu mascota y participa!', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Actividad', 'FINALIZADO', 'Todos', 'Todas', '2022-10-13', 1);
+(1, 'Conversatorio', 'Asiste al cuarto conversatorio de ICI, responde para inscribirte', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Conversatorio\r\n', 'DISPONIBLE', 'masculino', 'Todas', '2022-10-26', 1),
+(2, 'Seminario ICI', 'Participa de el nuevo seminario de ICI, y gana premios', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Seminario', 'DISPONIBLE', 'Todos', 'Ingenieria Civil Informatica', '2022-09-30', 1),
+(3, 'Encuesta de Asignatura Anatomia', 'Encuesta para cambiar horario de las clases del martes de Anatomia', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta de Asignatura', 'Encuesta', 'DISPONIBLE', 'Todos', 'Enfermeria', '2022-10-26', 1),
+(4, 'Fotografía', 'Concurso de fotografía! participa enviándonos una foto de tu mascota y participa!', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Actividad', 'Concurso', 'DISPONIBLE', 'Todos', 'Todas', '2022-10-13', 1),
+(5, 'ENCUESTA \"DIMENSIONES PSICOSOCIALES\"', 'Estimades compañeres,  junto con saludar, y esperando que se encuentren muy bien, como grupo de tesis conformado por Carlina Burgos Quezada, Alison Fernández Garrido y Makarena Gonzalez Quiñones, pertenecientes a la carrera de Psicología. Les escribimos ', 'https://forms.gle/wEQhmmT8aDJb7yJH7 ', 'Encuesta', 'Encuesta de Tesis', 'DISPONIBLE', 'Todos', 'Ingenieria Civil Informatica', '2022-08-18', 1),
+(6, 'Cambiar certamen de Redes', 'Vota en esta encuesta para cambiar el certamen de Datos y Redes. Para el próximo viernes 26 de Agosto', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'Encuesta de Asignatura', 'DISPONIBLE', 'Todos', 'Ingenieria Civil Informatica', '2022-08-27', 1),
+(8, 'Encuesta de Tesis \"CHATBOT\"', 'Te invitamos a responder nuestra encuesta, cuyos datos serán utilizados para la implementación del chatbot para la página de la carrera', 'https://forms.gle/WYZgZ498dgbJFHaa6', 'Encuesta', 'encuesta de tesis', 'DISPONIBLE', 'Todos', 'Ingeniería Civil Informática', '2022-08-28', 1);
 
 -- --------------------------------------------------------
 
@@ -61,6 +64,14 @@ CREATE TABLE `respuesta` (
   `id_usuario` int(11) NOT NULL,
   `id_formulario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`id_usuario`, `id_formulario`) VALUES
+(1, 1),
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -84,8 +95,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `rut`, `nombre`, `correo`, `password`, `rol`, `sexo`, `carrera`) VALUES
-(1, '20363288-6', 'Cristobal Castro', 'cristobal@gmail.com', '$2b$10$A148qnL/NESMMDl5SwnQg.Wut/40wcH19XnKImJP2px0WHJfmKcA2', '2', 'masculino', 'Ingenieria Civil Informatica'),
-(2, '11111111-1', 'Administrador', 'admin@gmail.com', '$2b$10$a3KvmVH7TtrmGETujruW6OGyus.YRk3Ot5Ijl7u55DgGAqluXHFba', '1', 'masculino', 'UBB');
+(1, '20363288-6', 'Cristobal Castro', 'cristobal@gmail.com', '$2b$10$A148qnL/NESMMDl5SwnQg.Wut/40wcH19XnKImJP2px0WHJfmKcA2', '2', 'masculino', 'Ingenieria Civil Informatica');
 
 --
 -- Índices para tablas volcadas
@@ -119,13 +129,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `formulario`
 --
 ALTER TABLE `formulario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
