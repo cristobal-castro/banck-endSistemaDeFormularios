@@ -167,7 +167,7 @@ app.post('/formularios', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
     let id_usuario=req.body.id_usuario;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario] ,function (err, results, fields) {
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and (CURRENT_DATE()<fecha_vencimiento) and estado="DISPONIBLE" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario] ,function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -182,7 +182,7 @@ app.post('/encuestas', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
     let id_usuario=req.body.id_usuario;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Encuesta" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario], function (err, results, fields) {
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and (CURRENT_DATE()<fecha_vencimiento) and estado="DISPONIBLE" and tipo_formulario="Encuesta" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?)',[carrera,sexo,id_usuario], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
@@ -197,7 +197,7 @@ app.post('/actividades', function (req, res){
     let carrera=req.body.carrera;
     let sexo=req.body.sexo;
     let id_usuario=req.body.id_usuario;
-    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and estado="DISPONIBLE" and tipo_formulario="Actividad" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?) ',[carrera,sexo,id_usuario], function (err, results, fields) {
+    mc.query('SELECT * FROM formulario WHERE (carrera_dirigida="Todas" or carrera_dirigida=?) and (sexo_dirigido=? or sexo_dirigido="Todos") and (CURRENT_DATE()<fecha_vencimiento) and estado="DISPONIBLE" and tipo_formulario="Actividad" and id NOT IN (SELECT id_formulario FROM respuesta WHERE id_usuario=?) ',[carrera,sexo,id_usuario], function (err, results, fields) {
         if (err) throw error;
         return res.send({
             error:false,
