@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-08-2022 a las 19:39:04
--- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 7.4.28
+-- Tiempo de generación: 21-08-2022 a las 22:46:27
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,7 +95,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `rut`, `nombre`, `correo`, `password`, `rol`, `sexo`, `carrera`) VALUES
-(1, '20363288-6', 'Cristobal Castro', 'cristobal@gmail.com', '$2b$10$A148qnL/NESMMDl5SwnQg.Wut/40wcH19XnKImJP2px0WHJfmKcA2', '2', 'masculino', 'Ingenieria Civil Informatica');
+(1, '20363288-6', 'Cristobal Castro', 'cristobal@gmail.com', '$2b$10$A148qnL/NESMMDl5SwnQg.Wut/40wcH19XnKImJP2px0WHJfmKcA2', '2', 'masculino', 'Ingenieria Civil Informatica'),
+(2, '11111111-1', 'Administrador', 'admin@gmail.com', '$2b$10$qSPKRGK635ibLLZcgc/S1umM0kKrvhZsHKOCXGTFoT3DcAF48Fbg2', '1', 'masculino', 'UBB'),
+(3, '20362288-5', 'Javier Lopez', 'javier@gmail.com', '$2b$10$8Bde9.rXKeHzvvBSNTinJuqfSXZuNaanaOjP9HWn83CYFKY0hruny', '2', 'masculino', 'Enfermería'),
+(4, '19693156-5', 'Daniela Lizana', 'daniela@gmail.com', '$2b$10$.QOmoRn.Kw1R0JiH1CesQO8eaM1uAytbOVrN65LxTAmcye0GRHfGS', '2', 'femenino', 'Nutrición y Dietética');
 
 --
 -- Índices para tablas volcadas
@@ -135,7 +138,7 @@ ALTER TABLE `formulario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
